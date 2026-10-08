@@ -102,8 +102,50 @@ def fill(image, seed_point):
                2 represents a filled pixel
     """
 
-    # TODO: Complete this function
-    return []
+    if not image or not image[0]:
+        return image
+
+    if not isinstance(seed_point, tuple) or len(seed_point) != 2:
+        return image
+
+    for coord in seed_point:
+        if not isinstance(coord, int) or isinstance(coord, bool):
+            return image
+
+    row_length = len(image)
+    col_length = len(image[0])
+    row = seed_point[0]
+    col = seed_point[1]
+
+    if row >= row_length or row < 0:
+        return image
+    if col >= col_length or col < 0:
+        return image
+
+    if image[row][col] != 0:
+        return image
+
+    filled_image = [pixel_row[:] for pixel_row in image]
+    stack = [(row, col)]
+
+    while stack:
+        current_row, current_col = stack.pop()
+
+        if current_row < 0 or current_row >= row_length:
+            continue
+        if current_col < 0 or current_col >= col_length:
+            continue
+        if filled_image[current_row][current_col] != 0:
+            continue
+
+        filled_image[current_row][current_col] = 2
+
+        stack.append((current_row + 1, current_col))
+        stack.append((current_row - 1, current_col))
+        stack.append((current_row, current_col + 1))
+        stack.append((current_row, current_col - 1))
+
+    return filled_image
 
 
 def example_fill():
@@ -112,7 +154,7 @@ def example_fill():
     print("Before filling:")
     show_image(image)
 
-    image = fill(image=image, seed_point=(7, 3))
+    image = fill(image=image, seed_point=('hello', 3))
 
     print("-" * 25)
     print("After filling:")

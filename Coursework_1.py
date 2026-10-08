@@ -104,7 +104,7 @@ def fill(image, seed_point):
 
 
 
-    """ First check if seed_point is valid """
+    """ First check if seed_point is valid: """
 
     """ Does the seed point have integer coordinates? """
     for coord in seed_point:
@@ -112,15 +112,20 @@ def fill(image, seed_point):
             return image
 
     """ Is the seed point within the image? """
-    rows, cols = (len(image), len(image[0]))
-    if seed_point[0] >= rows or seed_point[0] < 0:
+    row_length, col_length = (len(image), len(image[0]))
+    row = seed_point[0]
+    col = seed_point[1]
+    if row >= row_length or row < 0:
         return image
-    if seed_point[1] >= cols or seed_point[1] < 0:
-            return image
+    if col >= col_length or col < 0:
+        return image
 
     """ Is the seed point on a boundary pixel? """
-    if image[seed_point[0]][seed_point[1]] == 1:
+    if image[row][col] != 0:
         return image
+
+    """ Now we can fill the image from the seed point to the boundary. We will use a stack to keep track of the pixels to fill. """
+    
 
     # TODO: Complete this function
     return []
